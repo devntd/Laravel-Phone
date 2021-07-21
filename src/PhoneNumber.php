@@ -60,7 +60,7 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
     protected $lib;
 
     /**
-     * Phone constructor.
+     * Phone constructor Test.
      *
      * @param string $number
      */
