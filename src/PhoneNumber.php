@@ -107,6 +107,7 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
         if ($country) {
             $this->country = $country;
         }
+        return $this;
     }
 
     /**
