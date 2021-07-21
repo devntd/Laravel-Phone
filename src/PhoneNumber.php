@@ -60,7 +60,7 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
     protected $lib;
 
     /**
-     * Phone constructor Test Dev.
+     * Phone constructor.
      *
      * @param string $number
      */
@@ -100,6 +100,13 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
         );
 
         return $instance;
+    }
+
+    public function setCountry ($country = null)
+    {
+        if ($country) {
+            $this->country = $country;
+        }
     }
 
     /**
