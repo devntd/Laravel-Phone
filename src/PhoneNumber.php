@@ -135,9 +135,9 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
      *
      * @return string
      */
-    public function formatE164()
+    public function formatE164($country = null)
     {
-        return $this->format(PhoneNumberFormat::E164);
+        return $this->format(PhoneNumberFormat::E164, $country);
     }
 
     /**
@@ -157,7 +157,7 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
      * @return string
      * @throws \Propaganistas\LaravelPhone\Exceptions\NumberFormatException
      */
-    public function format($format)
+    public function format($format, $country = null)
     {
         $parsedFormat = static::parseFormat($format);
 
@@ -166,7 +166,7 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
         }
 
         return $this->lib->format(
-            $this->getPhoneNumberInstance(),
+            $this->getPhoneNumberInstance($country),
             $parsedFormat
         );
     }
@@ -185,7 +185,7 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
         }
 
         return $this->lib->formatOutOfCountryCallingNumber(
-            $this->getPhoneNumberInstance(),
+            $this->getPhoneNumberInstance($country),
             $country
         );
     }
@@ -291,9 +291,9 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
      * @param bool $asConstant
      * @return string|int|null
      */
-    public function getType($asConstant = false)
+    public function getType($country = null, $asConstant = false)
     {
-        $type = $this->lib->getNumberType($this->getPhoneNumberInstance());
+        $type = $this->lib->getNumberType($this->getPhoneNumberInstance($country));
 
         if ($asConstant) {
             return $type;
@@ -329,7 +329,7 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
      */
     public function getRawNumber()
     {
-    	return $this->number;
+        return $this->number;
     }
 
     /**
@@ -337,9 +337,9 @@ class PhoneNumber implements Jsonable, JsonSerializable, Serializable
      *
      * @return \libphonenumber\PhoneNumber
      */
-    public function getPhoneNumberInstance()
+    public function getPhoneNumberInstance($country = null)
     {
-        return $this->lib->parse($this->number, $this->getCountry());
+        return $this->lib->parse($this->number, $country ?? $this->getCountry());
     }
 
     /**
